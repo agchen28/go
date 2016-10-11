@@ -3,7 +3,12 @@ package main
 import "github.com/user/testPackage"
 
 func main() {
-	testMap()
+	sum(1, 2, 3, 4)
+	testMethod()
+	// testTemp()
+	// testStruct()
+	// testJSON()
+	// testMap()
 	// l, c := testSlice()
 	// fmt.Println(l)
 	// fmt.Println(c)
