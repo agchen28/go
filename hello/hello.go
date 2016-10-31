@@ -29,6 +29,20 @@ func main() {
 	// fmt.Println(len(medals))
 }
 
+type Reader interface {
+	Read(p []byte) (n int, err error)
+}
+type Closer interface {
+	Close() error
+}
+type ReadWriter interface {
+	Reader
+}
+type ReadWriteCloser interface {
+	Reader
+	Closer
+}
+
 // import (
 // 	"flag"
 // 	"fmt"
