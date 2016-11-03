@@ -1,9 +1,36 @@
 package main
 
-import "github.com/user/testPackage"
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/garyburd/redigo/redis"
+	"github.com/user/testPackage"
+)
 
 func main() {
+	pool := poolInit()
+	c := pool.Get()
+	defer c.Close()
+	reply, err := redis.String(c.Do("HGET", "PC:ChaoGaoFan:Brand_0", "489"))
+	if err == nil {
+		fmt.Print(reply)
+	} else {
+		fmt.Print(err)
+	}
+	mux := http.NewServeMux()
+	s := new(myServer)
+	mux.Handle("/get", http.HandlerFunc(s.get))
+	mux.Handle("/post", http.HandlerFunc(s.post))
+	log.Fatal(http.ListenAndServe("localhost:8000", mux))
+
+	// var i testInt
+	var testI interface{}
+	testI = 2
+	// i = 1
 	sum(1, 2, 3, 4)
+	fmt.Println(testI)
 	testMethod()
 	// testTemp()
 	// testStruct()
@@ -29,19 +56,7 @@ func main() {
 	// fmt.Println(len(medals))
 }
 
-type Reader interface {
-	Read(p []byte) (n int, err error)
-}
-type Closer interface {
-	Close() error
-}
-type ReadWriter interface {
-	Reader
-}
-type ReadWriteCloser interface {
-	Reader
-	Closer
-}
+type testInt int
 
 // import (
 // 	"flag"
